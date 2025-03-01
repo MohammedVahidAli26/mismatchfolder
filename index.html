@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Converter</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            color: #333;
+            padding-top: 10px;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        #inputBox {
+            width: 90px;
+            height: 20px;
+            resize: none;
+            text-align: center;
+            font-size: 16px;
+            border: 2px solid #1988ff;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background: #005eff;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #d64040;
+        }
+        #output {
+            margin-top: 20px;
+            width: 100%;
+            height: calc(100vh - 110px);
+            border: 2px solid #ff6b6b;
+            padding-left: 10px;
+            overflow: auto;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="input-container">
+        <textarea id="inputBox" placeholder="HTML"></textarea>
+        <button onclick="convertHTML()">Convert</button>
+    </div>
+    <div id="output"></div>
+    
+    <script>
+        function convertHTML() {
+            let input = document.getElementById("inputBox").value;
+            document.getElementById("output").innerText = input;
+        }
+    </script>
+</body>
+</html>
