@@ -15,6 +15,7 @@
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: #333;
             padding-top: 10px;
+            position: relative;
         }
         .time-container {
             position: absolute;
@@ -60,7 +61,7 @@
             padding: 10px;
             overflow-y: auto;
             overflow-x: hidden;
-            background: black;
+            background: white;
             border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             word-wrap: break-word;
@@ -68,6 +69,7 @@
     </style>
 </head>
 <body>
+    <div class="time-container" id="currentTime"></div>
     <div class="input-container">
         <textarea id="inputBox" placeholder="HTML"></textarea>
         <button onclick="convertHTML()">Convert</button>
@@ -75,23 +77,28 @@
     <div id="output"></div>
     
     <script>
-        function convertHTML() {
-            let input = document.getElementById("inputBox").value;
-            requestAnimationFrame(() => {
-                document.getElementById("output").innerHTML = input;
-            });
-            function updateTime() {
+       
+    function convertHTML() {
+        let input = document.getElementById("inputBox").value;
+        requestAnimationFrame(() => {
+            document.getElementById("output").innerHTML = input;
+        });
+    }
+
+
+
+        function updateTime() {
             const now = new Date();
-            const hours = String(now.getHours()).padStart(2, '0');
+            let hours = now.getHours();
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById("currentTime").textContent = `${hours}:${minutes}:${seconds}`;
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12; // Convert to 12-hour format
+            document.getElementById("currentTime").textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
         }
 
         setInterval(updateTime, 1000);
         updateTime();
-        }
     </script>
-    
 </body>
 </html>
