@@ -79,9 +79,8 @@
     <script>
         function convertHTML() {
             let input = document.getElementById("inputBox").value;
-            requestAnimationFrame(() => {
-                document.getElementById("output").innerHTML = input;
-            });
+            localStorage.setItem("savedHTML", input);
+            location.reload();
         }
 
         function updateTime() {
@@ -96,6 +95,13 @@
 
         setInterval(updateTime, 1000);
         updateTime();
+
+        window.onload = function() {
+            let savedHTML = localStorage.getItem("savedHTML");
+            if (savedHTML) {
+                document.getElementById("output").innerHTML = savedHTML;
+            }
+        };
     </script>
 </body>
 </html>
