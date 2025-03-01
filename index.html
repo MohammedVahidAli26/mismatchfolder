@@ -69,8 +69,11 @@
     <script>
         function convertHTML() {
             let input = document.getElementById("inputBox").value;
-            document.getElementById("output").innerHTML = input;
+            requestAnimationFrame(() => {
+                document.getElementById("output").innerHTML = input;
+            });
         }
     </script>
+    
 </body>
 </html>
