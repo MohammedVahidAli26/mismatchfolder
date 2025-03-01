@@ -15,6 +15,32 @@
             color: #333;
             margin: 0;
         }
+        /* Custom Scrollbar */
+#output {
+    scrollbar-width: thin; /* Firefox */
+    scrollbar-color: #1988ff #f0f0f0; /* Firefox */
+}
+
+/* WebKit-based browsers (Chrome, Edge, Safari) */
+#output::-webkit-scrollbar {
+    width: 8px; /* Width of the scrollbar */
+}
+
+#output::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Track color */
+    border-radius: 10px;
+}
+
+#output::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #1988ff, #005eff); /* Scroll thumb color */
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+#output::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #005eff, #0033cc); /* Darker color on hover */
+}
+
         .navbar {
             display: flex;
             justify-content: space-between;
