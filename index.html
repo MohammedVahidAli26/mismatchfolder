@@ -8,22 +8,21 @@
         body {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
+            align-items: stretch;
             height: 100vh;
             font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: #333;
-            padding-top: 10px;
-            position: relative;
+            margin: 0;
         }
-        .time-container {
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            font-size: 18px;
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1a1a2e;
+            padding: 5px 10px;
             color: white;
-            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .input-container {
             display: flex;
@@ -54,14 +53,12 @@
             background: #d64040;
         }
         #output {
-            margin-top: 20px;
-            width: 100%;
-            height: calc(100vh - 110px);
+            flex-grow: 1;
             border: 2px solid #ff6b6b;
             padding: 10px;
             overflow-y: auto;
             overflow-x: hidden;
-            background: rgb(61, 61, 61);
+            background: white;
             border-radius: 5px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             word-wrap: break-word;
@@ -69,24 +66,22 @@
     </style>
 </head>
 <body>
-    <div class="time-container" id="currentTime"></div>
-    <div class="input-container">
-        <textarea id="inputBox" placeholder="HTML"></textarea>
-        <button onclick="convertHTML()">Convert</button>
+    <div class="navbar">
+        <div class="input-container">
+            <textarea id="inputBox" placeholder="HTML"></textarea>
+            <button onclick="convertHTML()">Convert</button>
+        </div>
+        <div class="time-container" id="currentTime"></div>
     </div>
     <div id="output"></div>
     
     <script>
-       
-    function convertHTML() {
+        function convertHTML() {
         let input = document.getElementById("inputBox").value;
         requestAnimationFrame(() => {
             document.getElementById("output").innerHTML = input;
         });
     }
-
-
-
         function updateTime() {
             const now = new Date();
             let hours = now.getHours();
