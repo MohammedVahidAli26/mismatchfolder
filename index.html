@@ -71,6 +71,7 @@
         <div class="input-container">
             <textarea id="inputBox" placeholder="HTML"></textarea>
             <button onclick="convertHTML()">Convert</button>
+            <button id="fullscreenBtn" onclick="toggleFullScreen()">Full Screen</button>
         </div>
         <div class="time-container" id="currentTime"></div>
     </div>
@@ -92,6 +93,22 @@
             hours = hours % 12 || 12; // Convert to 12-hour format
             document.getElementById("currentTime").textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
         }
+
+        function toggleFullScreen() {
+            let fullscreenBtn = document.getElementById("fullscreenBtn");
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                fullscreenBtn.textContent = "Exit Full Screen";
+            } else {
+                document.exitFullscreen();
+                fullscreenBtn.textContent = "Full Screen";
+            }
+        }
+
+        document.addEventListener("fullscreenchange", () => {
+            let fullscreenBtn = document.getElementById("fullscreenBtn");
+            fullscreenBtn.textContent = document.fullscreenElement ? "Exit Full Screen" : "Full Screen";
+        });
 
         setInterval(updateTime, 1000);
         updateTime();
