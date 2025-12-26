@@ -1,150 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Converter</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            height: 100vh;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #333;
-            margin: 0;
-        }
-        /* Custom Scrollbar */
-#output {
-    scrollbar-width: thin; /* Firefox */
-    scrollbar-color: #1988ff #f0f0f0; /* Firefox */
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HTML Converter — Modern UI</title>
+
+<style>
+*{
+  box-sizing:border-box;
 }
 
-/* WebKit-based browsers (Chrome, Edge, Safari) */
-#output::-webkit-scrollbar {
-    width: 8px; /* Width of the scrollbar */
+body{
+  margin:0;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  background: radial-gradient(circle at top, #101322, #05070d);
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  height:100vh;
 }
 
-#output::-webkit-scrollbar-track {
-    background: #f0f0f0; /* Track color */
-    border-radius: 10px;
+/* Navbar */
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:4px 2px;
+  background:rgba(20,22,40,0.75);
+  backdrop-filter: blur(14px);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  box-shadow:0 10px 25px rgba(0,0,0,.35);
 }
 
-#output::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #1988ff, #005eff); /* Scroll thumb color */
-    border-radius: 10px;
-    transition: 0.3s;
+/* Input group */
+.input-container{
+  display:flex;
+  align-items:center;
+  gap:12px;
 }
 
-#output::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(135deg, #005eff, #0033cc); /* Darker color on hover */
+/* Input */
+#inputBox{
+  width:250px;
+  height:36px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.18);
+  background: rgba(255,255,255,.08);
+  color:#fff;
+  outline:none;
+  padding:6px 10px;
+  font-size:15px;
+}
+#inputBox::placeholder{
+  color:#cfd3ff8e;
 }
 
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #1a1a2e;
-            padding: 5px 10px;
-            color: white;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            height: 40px;
-        }
-        .input-container {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        #inputBox {
-            width: 200px;
-            height: 25px;
-            resize: none;
-            text-align: center;
-            font-size: 16px;
-            border: 2px solid #1988ff;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        button {
-            padding: 10px 20px;
-            border: none;
-            background: #005eff;
-            color: white;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button:hover {
-            background: #d64040;
-        }
-        #output {
-            flex-grow: 1;
-            border: 2px solid #ff6b6b;
-            padding: 10px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            word-wrap: break-word;
-        }
-    </style>
+/* Buttons */
+button{
+  border:none;
+  border-radius:12px;
+  padding:9px 18px;
+  cursor:pointer;
+  font-size:15px;
+  color:white;
+  background: linear-gradient(135deg,#1d8bff,#005eff);
+  box-shadow:0 8px 18px rgba(0,94,255,.35);
+  transition:.25s;
+}
+button:hover{
+  transform:translateY(-2px);
+  box-shadow:0 14px 30px rgba(0,94,255,.45);
+}
+#fullscreenBtn{
+  background: linear-gradient(135deg,#ff6b6b,#d64040);
+  box-shadow:0 8px 18px rgba(255,60,60,.35);
+}
+
+/* Clock */
+.time-container{
+  font-weight:600;
+  opacity:.9;
+  letter-spacing:.5px;
+}
+
+/* Output window */
+#output{
+  flex:1;
+  margin:4px;
+  padding:6px 8px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.96);
+  color:#000;
+  overflow-y:auto;
+  box-shadow:0 18px 40px rgba(0,0,0,.35);
+  word-wrap:break-word;
+  position:relative;
+}
+
+/* ===== Animated Watermark ===== */
+#output.placeholder::before{
+  content:"— Designed & Built by Mohammed Vahid Ali —";
+  position:absolute;
+  bottom:24px;
+  right:26px;
+  color:#6b728066;
+  font-size:14px;
+  font-weight:500;
+  letter-spacing:0.6px;
+  pointer-events:none;
+  user-select:none;
+  animation: fadePulse 4.5s ease-in-out infinite;
+}
+
+@keyframes fadePulse {
+  0%   { opacity:0.25; transform:translateY(2px); }
+  50%  { opacity:0.75; transform:translateY(0px); }
+  100% { opacity:0.25; transform:translateY(2px); }
+}
+
+/* Scrollbar */
+#output::-webkit-scrollbar{
+  width:8px;
+}
+#output::-webkit-scrollbar-thumb{
+  background: linear-gradient(135deg,#1d8bff,#005eff);
+  border-radius:10px;
+}
+
+/* ===== Toast popup ===== */
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg,#000000,#6b6bff,#ba6bff);
+  color: white;
+  padding: 14px 18px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(15, 75, 75, 0.6), 0 0 40px rgba(107,107,255,.4);
+  font-size: 15px;
+  animation: pop 0.25s ease-out;
+  z-index: 9999;
+}
+
+
+@keyframes pop{
+  from{ transform:translateY(-15px) scale(0.8); opacity:0; }
+  to{ transform:translateY(0) scale(1); opacity:1; }
+}
+
+/* ===== Tamil Comedy Proverbs Display ===== */
+.proverb-space {
+  width: 500px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  /* text-shadow: 0 0 4px #ffffff, 0 0 8px #ffffff; */
+  font-style: italic;
+  user-select:none;
+  white-space: nowrap;      /* keep text in single line */
+  overflow: hidden;         /* hide overflow */
+  text-overflow: ellipsis;  
+}
+</style>
 </head>
+
 <body>
-    <div class="navbar">
-        <div class="input-container">
-            <textarea id="inputBox" placeholder="HTML"></textarea>
-            <button onclick="convertHTML()">Convert</button>
-            <button id="fullscreenBtn" onclick="toggleFullScreen()">Full Screen</button>
-        </div>
-        <div class="time-container" id="currentTime"></div>
-    </div>
-    <div id="output"></div>
-    
-    <script>
-        function convertHTML() {
-            let input = document.getElementById("inputBox").value;
-            localStorage.setItem("savedHTML", input);
-            location.reload();
-        }
 
-        function updateTime() {
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const seconds = String(now.getSeconds()).padStart(2, '0');
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12 || 12; // Convert to 12-hour format
-            document.getElementById("currentTime").textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
-        }
+<div class="navbar">
+  <div class="input-container">
+    <textarea id="inputBox" placeholder="Paste HTML here"></textarea>
+    <button onclick="convertHTML()">Convert</button>
+    <button id="fullscreenBtn" onclick="toggleFullScreen()">Full Screen</button>
+  </div>
 
-        function toggleFullScreen() {
-            let fullscreenBtn = document.getElementById("fullscreenBtn");
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-                fullscreenBtn.textContent = "Exit Full Screen";
-            } else {
-                document.exitFullscreen();
-                fullscreenBtn.textContent = "Full Screen";
-            }
-        }
+  <!-- Proverb Display Space -->
+  <div class="proverb-space" id="proverbSpace"></div>
 
-        document.addEventListener("fullscreenchange", () => {
-            let fullscreenBtn = document.getElementById("fullscreenBtn");
-            fullscreenBtn.textContent = document.fullscreenElement ? "Exit Full Screen" : "Full Screen";
-        });
+  <div id="currentTime" class="time-container"></div>
+</div>
 
-        setInterval(updateTime, 1000);
-        updateTime();
+<div id="output" class="placeholder"></div>
 
-        window.onload = function() {
-            let savedHTML = localStorage.getItem("savedHTML");
-            if (savedHTML) {
-                document.getElementById("output").innerHTML = savedHTML;
-            }
-        };
-    </script>
+<script>
+const proverbs = [
+  "Innuma walmart karan ungala nambura?",
+];
+
+let currentIndex = 0;
+const proverbSpace = document.getElementById("proverbSpace");
+
+function showProverb(){
+  proverbSpace.textContent = proverbs[currentIndex];
+  currentIndex = (currentIndex + 1) % proverbs.length;
+}
+
+// Change proverb every 25 seconds
+showProverb(); // initial display
+setInterval(showProverb, 25000);
+
+function showToast(msg){
+  const toast=document.createElement("div");
+  toast.className="toast";
+  toast.innerText=msg;
+  document.body.appendChild(toast);
+  setTimeout(()=>toast.remove(),4000); // 4 seconds
+}
+
+function convertHTML(){
+  let input=document.getElementById("inputBox").value;
+  localStorage.setItem("savedHTML", input);
+  showToast("ஓho! இன்னும் mismatch files வருதுவா? 😅");
+
+  setTimeout(()=>location.reload(),3000);
+}
+
+function updateTime(){
+  const now=new Date();
+  let h=now.getHours();
+  const m=String(now.getMinutes()).padStart(2,"0");
+  const s=String(now.getSeconds()).padStart(2,"0");
+  const ampm=h>=12?"PM":"AM";
+  h=h%12||12;
+  document.getElementById("currentTime").textContent=`${h}:${m}:${s} ${ampm}`;
+}
+
+function toggleFullScreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen();
+  } else{
+    document.exitFullscreen();
+  }
+}
+
+document.addEventListener("fullscreenchange",()=>{
+  fullscreenBtn.textContent=document.fullscreenElement?"Exit Full Screen":"Full Screen";
+});
+
+setInterval(updateTime,1000);
+updateTime();
+
+window.onload=function(){
+  const output=document.getElementById("output");
+  let savedHTML=localStorage.getItem("savedHTML");
+
+  if(savedHTML && savedHTML.trim()!==""){
+    output.innerHTML=savedHTML;
+    output.classList.remove("placeholder");
+  } else {
+    output.innerHTML="";
+    output.classList.add("placeholder");
+  }
+}
+</script>
+
 </body>
 </html>
+
+
+
