@@ -190,11 +190,11 @@ button:hover{
 /* ===== AUTO GENERATE PATTERN ===== */
 function generatePattern(total) {
   return Array.from({length: total}, (_, i) =>
-    Array.from({length: total}, (_, j) => j === i ? "_"  : "_").join(" ")
+    Array.from({length: total}, (_, j) => j === i ? "-"  : "_").join(" ")
   );
 }
 
-const totalSymbols = 30;
+const totalSymbols = 20;
 const proverbs = generatePattern(totalSymbols);
 
 let currentIndex = 0;
