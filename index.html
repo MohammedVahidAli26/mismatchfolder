@@ -134,20 +134,23 @@ button:hover{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: linear-gradient(135deg,#000000,#6b6bff,#ba6bff);
-  color: white;
-  padding: 14px 18px;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(15, 75, 75, 0.6), 0 0 40px rgba(107,107,255,.4);
+  padding: 16px 20px;
+  border-radius: 18px;
   font-size: 15px;
   animation: pop 0.25s ease-out;
   z-index: 9999;
+  text-align: center;
+  /* background:white; */
+}
+.toast img{
+  width: 250px;
+  border-radius: 10px;
+  margin-bottom: 10px;
 }
 
-
 @keyframes pop{
-  from{ transform:translateY(-15px) scale(0.8); opacity:0; }
-  to{ transform:translateY(0) scale(1); opacity:1; }
+  from{ transform:translate(-50%, -60%) scale(0.8); opacity:0; }
+  to{ transform:translate(-50%, -50%) scale(1); opacity:1; }
 }
 
 /* ===== Tamil Comedy Proverbs Display ===== */
@@ -157,12 +160,11 @@ button:hover{
   font-size: 13px;
   font-weight: 500;
   color: #ffffff;
-  /* text-shadow: 0 0 4px #ffffff, 0 0 8px #ffffff; */
   font-style: italic;
   user-select:none;
-  white-space: nowrap;      /* keep text in single line */
-  overflow: hidden;         /* hide overflow */
-  text-overflow: ellipsis;  
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>
 </head>
@@ -176,7 +178,6 @@ button:hover{
     <button id="fullscreenBtn" onclick="toggleFullScreen()">Full Screen</button>
   </div>
 
-  <!-- Proverb Display Space -->
   <div class="proverb-space" id="proverbSpace"></div>
 
   <div id="currentTime" class="time-container"></div>
@@ -185,9 +186,16 @@ button:hover{
 <div id="output" class="placeholder"></div>
 
 <script>
-const proverbs = [
-  "Innuma walmart karan ungala nambura?",
-];
+
+/* ===== AUTO GENERATE PATTERN ===== */
+function generatePattern(total) {
+  return Array.from({length: total}, (_, i) =>
+    Array.from({length: total}, (_, j) => j === i ? "O_O"  : "_").join(" ")
+  );
+}
+
+const totalSymbols = 30;
+const proverbs = generatePattern(totalSymbols);
 
 let currentIndex = 0;
 const proverbSpace = document.getElementById("proverbSpace");
@@ -196,24 +204,32 @@ function showProverb(){
   proverbSpace.textContent = proverbs[currentIndex];
   currentIndex = (currentIndex + 1) % proverbs.length;
 }
+showProverb();
+setInterval(showProverb, 200);
 
-// Change proverb every 25 seconds
-showProverb(); // initial display
-setInterval(showProverb, 25000);
 
-function showToast(msg){
-  const toast=document.createElement("div");
-  toast.className="toast";
-  toast.innerText=msg;
+/* ===== Toast with Image + Text ===== */
+function showToast(){
+  const toast = document.createElement("div");
+  toast.className = "toast";
+
+  toast.innerHTML = `
+    <img src="vanakam_mani.jpeg" alt="Greeting" />
+    <div style="font-size:16px; font-weight:600; color:black; margin-top:8px;">
+      🎉 இனிய புத்தாண்டு வாழ்த்துகள்  🎊
+    </div>
+  `;
+
   document.body.appendChild(toast);
-  setTimeout(()=>toast.remove(),4000); // 4 seconds
+
+  setTimeout(()=>toast.remove(),4000);
 }
 
 function convertHTML(){
   let input=document.getElementById("inputBox").value;
   localStorage.setItem("savedHTML", input);
-  showToast("ஓho! இன்னும் mismatch files வருதுவா? 😅");
 
+  showToast();
   setTimeout(()=>location.reload(),3000);
 }
 
@@ -258,6 +274,3 @@ window.onload=function(){
 
 </body>
 </html>
-
-
-
