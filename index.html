@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -129,7 +130,24 @@ button:hover{
 }
 
 /* ===== Toast popup ===== */
-
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 16px 20px;
+  border-radius: 18px;
+  font-size: 15px;
+  animation: pop 0.25s ease-out;
+  z-index: 9999;
+  text-align: center;
+  /* background:white; */
+}
+.toast img{
+  width: 250px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
 
 @keyframes pop{
   from{ transform:translate(-50%, -60%) scale(0.8); opacity:0; }
@@ -191,6 +209,22 @@ showProverb();
 setInterval(showProverb, 200);
 
 
+/* ===== Toast with Image + Text ===== */
+function showToast(){
+  const toast = document.createElement("div");
+  toast.className = "toast";
+
+  toast.innerHTML = `
+    <img src="https://cdn.vectorstock.com/i/500p/14/46/black-check-mark-icon-done-symbol-vector-27891446.jpg" alt="Greeting" />
+    <div style="font-size:16px; font-weight:600; color:black; margin-top:8px;">
+      Done!  
+    </div>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(()=>toast.remove(),4000);
+}
 
 function convertHTML(){
   let input=document.getElementById("inputBox").value;
